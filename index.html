@@ -46,11 +46,18 @@
                       <img
                         src="/public/rectangle.png" class="m-3"/>
                     </figure>
-                    <div class="card-body">
-                      <h2 class="card-title">Shoes!</h2>
-                      <p>If a dog chews shoes whose shoes does he choose?</p>
-                      <div class="card-actions justify-end">
-                        <button class="btn btn-primary">Buy Now</button>
+                    <div class="card-body text-center">
+                        <h2 class="text-center text-xl font-bold" >Rectangle</h2>
+                        <p>Area (A) = w x l</p>
+                        <div class="flex items-center justify-center">
+                        <input id="rWidth" type="text" placeholder="w" class="w-20 p-2 rounded-sm text-xl"><span class="mr-4 ml-2">cm</span>
+                        <input id="rLength" type="text" placeholder="l" class="w-20 p-2 rounded-sm text-xl"><span class="ml-2">cm</span>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold py-1">Area :<span id="rectangleResult" class="mx-2 text-primary">0</span>cm<sup>2</sup></p>
+                    </div>
+                      <div class="card-actions justify-center">
+                        <button id="rectangle" class="btn btn-primary w-full">Calculate</button>
                       </div>
                     </div>
                   </div>

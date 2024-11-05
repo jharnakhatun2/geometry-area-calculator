@@ -20,3 +20,22 @@ function triangleAreaCalculation(){
 
 }
 addEventListener(triangleBtn, 'click', triangleAreaCalculation)
+
+
+//Rectangle calculation
+const rectangleBtn = getId('rectangle');
+const rWidth = getId('rWidth');
+const rLength= getId('rLength');
+const rectangleResult= getId('rectangleResult');
+function rectangleAreaCalculation(){
+    const widthValue = parseFloat(rWidth.value);
+    const lengthValue = parseFloat(rLength.value);
+    const area =  widthValue * lengthValue;
+    result(rectangleResult, area);
+
+    // Reset the input values
+    rWidth.value = '';
+    rLength.value = '';
+
+}
+addEventListener(rectangleBtn, 'click', rectangleAreaCalculation)
