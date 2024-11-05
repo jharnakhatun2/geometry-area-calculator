@@ -29,11 +29,14 @@
                         <h2 class="text-center text-xl font-bold" >Triangle</h2>
                         <p>Area (A) = 0.5 x b x h</p>
                         <div class="flex items-center justify-center">
-                        <input type="text" placeholder="b" class="w-20 p-2 rounded-sm text-xl"><span class="mr-4 ml-2">cm</span>
-                        <input type="text" placeholder="h" class="w-20 p-2 rounded-sm text-xl"><span class="ml-2">cm</span>
+                        <input id="tbase" type="text" placeholder="b" class="w-20 p-2 rounded-sm text-xl"><span class="mr-4 ml-2">cm</span>
+                        <input id="thight" type="text" placeholder="h" class="w-20 p-2 rounded-sm text-xl"><span class="ml-2">cm</span>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold py-1">Area :<span id="triangleResult" class="mx-2 text-primary">0</span>cm<sup>2</sup></p>
                     </div>
                       <div class="card-actions justify-center">
-                        <button class="btn btn-primary w-full">Calculate</button>
+                        <button id="triangle" class="btn btn-primary w-full">Calculate</button>
                       </div>
                     </div>
                   </div>
