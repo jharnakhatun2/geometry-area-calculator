@@ -26,7 +26,7 @@ const getInputFieldValue = (id) => {
 
 // Generalized area calculation
 const calculateArea = (arrayOfIds, areaFormula, displayElement) => {
-  const input = arrayOfIds.map((id) => getInputFieldValue(id));
+  const input = arrayOfIds.map((id) => getId(id).innerHTML);
   const area = areaFormula(...input);
   result(displayElement, area);
 
@@ -53,6 +53,9 @@ addEventListener(checkbox, "click", () => {
   getId("tHight").value = "";
 });
 addEventListener(editIcon, "click", () => {
+  if(baseD.innerHTML === '0' && heightD.innerHTML === '0'){
+    return;
+  }
   // create edit input elements
   const inputB = createElement('input');
   const inputH = createElement('input');
@@ -68,23 +71,20 @@ addEventListener(editIcon, "click", () => {
   baseD.appendChild(inputB);
   heightD.appendChild(inputH);
 
+ 
+
   // update 
   addEventListener(inputB, 'blur', ()=> baseD.innerHTML = inputB.value );
   addEventListener(inputH, 'blur', ()=> heightD.innerHTML = inputH.value );
+
+  
 })
 
-// Triangle area calculation using the utility function
-const triangleBtn = getId("triangle");
-const triangleResult = getId("triangleResult");
-const triangleAreaFormula = (base, height) => base * height * 0.5;
-addEventListener(triangleBtn, "click", () => {
-  calculateArea(["tBase", "tHight"], triangleAreaFormula, triangleResult);
-});
 
-// Rectangle area calculation using the utility function
-const rectangleBtn = getId("rectangle");
-const rectangleFormula = (width, length) => width * length;
-const rectangleResult = getId("rectangleResult");
-addEventListener(rectangleBtn, "click", () => {
-  calculateArea(["rWidth", "rLength"], rectangleFormula, rectangleResult);
-});
+ // Triangle area calculation using the utility function
+ const triangleBtn = getId("triangle");
+ const triangleResult = getId("triangleResult");
+ const triangleAreaFormula = (base, height) => base * height * 0.5;
+ addEventListener(triangleBtn, "click", () => {
+   calculateArea(["baseD", "heightD"], triangleAreaFormula, triangleResult);
+ });
