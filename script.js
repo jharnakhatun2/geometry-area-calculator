@@ -1,41 +1,52 @@
-//utility function
+//utility functions
+// get id
 const getId = (id) => document.getElementById(id);
-const addEventListener = (element, event, callbackFn) => element.addEventListener(event, callbackFn);
-const result = (element, value) => element.textContent = value ;
 
-//triangle calculation
-const triangleBtn = getId('triangle');
-const tBase = getId('tbase');
-const tHight= getId('thight');
-const triangleResult= getId('triangleResult');
-function triangleAreaCalculation(){
-    const baseValue = parseFloat(tBase.value);
-    const hightValue = parseFloat(tHight.value);
-    const area =  baseValue * hightValue * 0.5;
-    result(triangleResult, area);
+// add Event Listener
+const addEventListener = (element, event, callbackFn) =>
+  element.addEventListener(event, callbackFn);
 
-    // Reset the input values
-    tBase.value = '';
-    tHight.value = '';
+// set result in element textContent
+const result = (element, value) => (element.textContent = value);
 
+// get input field value
+const getInputFieldValue = (id) => {
+  const inputField = document.getElementById(id);
+  if (!inputField) {
+    console.warn(`Element with id "${id}" not found.`);
+    return NaN;
+  }
+  const inputValue = inputField.value.trim();
+  const inputValueNumber = parseFloat(inputValue);
+  return isNaN(inputValueNumber) ? null : inputValueNumber;
+};
+
+// Generalized area calculation
+const calculateArea = (arrayOfIds,areaFormula,displayElement) =>{
+const input = arrayOfIds.map(id => getInputFieldValue(id));
+const area = areaFormula(...input);
+result(displayElement, area);
+
+// reset input field
+arrayOfIds.forEach( id => getId(id).value = ''); 
 }
-addEventListener(triangleBtn, 'click', triangleAreaCalculation)
+  
+  // Triangle area calculation using the utility function
+  const triangleBtn = getId('triangle');
+  const triangleResult = getId('triangleResult');
+  const triangleAreaFormula = (base, height) => base * height * 0.5 ;
+  addEventListener(triangleBtn, 'click', ()=>{
+    calculateArea(['tBase','tHight'], triangleAreaFormula, triangleResult)
+  });
+  
+
+  // Rectangle area calculation using the utility function
+  const rectangleBtn = getId('rectangle');
+  const rectangleFormula = (width, length) => width * length ;
+  const rectangleResult = getId('rectangleResult')
+  addEventListener(rectangleBtn, 'click', ()=>{
+    calculateArea(['rWidth','rLength'], rectangleFormula, rectangleResult)
+  })
 
 
-//Rectangle calculation
-const rectangleBtn = getId('rectangle');
-const rWidth = getId('rWidth');
-const rLength= getId('rLength');
-const rectangleResult= getId('rectangleResult');
-function rectangleAreaCalculation(){
-    const widthValue = parseFloat(rWidth.value);
-    const lengthValue = parseFloat(rLength.value);
-    const area =  widthValue * lengthValue;
-    result(rectangleResult, area);
 
-    // Reset the input values
-    rWidth.value = '';
-    rLength.value = '';
-
-}
-addEventListener(rectangleBtn, 'click', rectangleAreaCalculation)
