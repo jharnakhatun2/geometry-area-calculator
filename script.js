@@ -165,6 +165,8 @@ const setupShapeEdit = (
 };
 
 //*************************Use of all utility functions ********************************/
+// calculateArea (arrayOfIds,areaFormula,displayElement,containerId,shapeName)
+// setupShapeEdit(spanBaseId,spanHightId,checkboxId,editIconId,inputBaseId,inputHightId)
 //=====================Triangle========================//
 
 //Area calculation
@@ -183,6 +185,20 @@ addEventListener(triangleBtn, "click", () => {
 setupShapeEdit("baseD", "heightD", "checkbox", "editIcon", "tBase", "tHight");
 
 //=====================Rectangle========================//
+//Area calculation
+const rectangleBtn = getId("rectangle");
+const rectangleFormula = (width, length) => width * length;
+addEventListener(rectangleBtn, "click", () => {
+  calculateArea(
+    ["widthR", "lengthR"],
+    rectangleFormula,
+    getId("rectangleResult"),
+    "displayResult",
+    "rectangle"
+  );
+});
+//Call input value add, edit, update
+setupShapeEdit("widthR", "lengthR", "checkboxR", "editIconR", "tWidth", "tLength");
 //=====================Parallelogram========================//
 //=====================Rhombus========================//
 //=====================Pentagon========================//
