@@ -199,7 +199,22 @@ addEventListener(rectangleBtn, "click", () => {
 });
 //Call input value add, edit, update
 setupShapeEdit("widthR", "lengthR", "checkboxR", "editIconR", "tWidth", "tLength");
+
 //=====================Parallelogram========================//
+//Area calculation
+const parallelogramBtn = getId("parallelogram");
+const parallelogramAreaFormula = (base, height) => base * height;
+addEventListener(parallelogramBtn, "click", () => {
+  calculateArea(
+    ["baseP", "heightP"],
+    parallelogramAreaFormula,
+    getId("parallelogramResult"),
+    "displayResult",
+    "parallelogram"
+  );
+});
+//Call input value add, edit, update
+setupShapeEdit("baseP", "heightP", "checkboxP", "editIconP", "pBase", "pHight");
 //=====================Rhombus========================//
 //=====================Pentagon========================//
 //=====================Ellipse========================//

@@ -165,19 +165,19 @@
           <!-- parallelogram shape -->
           <div class="card bg-base-100 w-full md:w-56 lg:w-72 shadow-xl">
             <figure>
-              <img src="/public/triangle.png" alt="Shoes" />
+              <img src="/public/parallelogram.png" alt="parallelogram" class="m-5"/>
             </figure>
             <div class="card-body text-center">
               <div>
-                <h2 class="text-center text-xl font-bold">Triangle</h2>
-                <p>Area (A) = 0.5 x b x h</p>
+                <h2 class="text-center text-xl font-bold">Parallelogram</h2>
+                <p>Area (A) = b x h</p>
               </div>
               <!-- show and edit input value -->
               <div class="flex items-center">
-                <p>b = <span id="baseD">0</span> cm</p>
-                <p>h = <span id="heightD">0</span> cm</p>
+                <p>b = <span id="baseP">0</span> cm</p>
+                <p>h = <span id="heightP">0</span> cm</p>
                 <svg
-                  id="editIcon"
+                  id="editIconP"
                   class="w-4 h-4 cursor-pointer"
                   viewBox="0 0 24 24"
                   fill="none"
@@ -210,24 +210,24 @@
               <!-- checkbox and input  -->
               <div class="flex items-center justify-center">
                 <input
-                  id="tBase"
+                  id="pBase"
                   type="text"
                   placeholder="b"
                   class="w-16 px-2 rounded-sm text-xl"
                 /><span class="mr-4 ml-2">cm</span>
                 <input
-                  id="tHight"
+                  id="pHight"
                   type="text"
                   placeholder="h"
                   class="w-16 px-2 rounded-sm text-xl"
                 /><span class="ml-2">cm</span>
                 <div class="ml-2 bg-zinc-700 px-2 rounded-sm">
-                  <input type="checkbox" id="checkbox" />
+                  <input type="checkbox" id="checkboxP" />
                 </div>
               </div>
 
               <div class="card-actions justify-center mt-5">
-                <button id="triangle" class="btn btn-primary w-full">
+                <button id="parallelogram" class="btn btn-primary w-full">
                   Calculate
                 </button>
               </div>
