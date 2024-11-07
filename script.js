@@ -11,8 +11,7 @@ const addEventListener = (element, event, callbackFn) => element.addEventListene
 // set result in element textContent
 const result = (element, value) => (element.textContent = value);
 
-// Convert cm² to m² utility function
-const convertCmToM = (valueInCm2) => (valueInCm2 / 10000).toFixed(3) + ' m²';
+
 
 // get input field value
 const getInputFieldValue = (id) => {
@@ -120,7 +119,7 @@ const displayResult = (containerId, shapeName, resultValue) => {
   
   ol.innerHTML = `
     <li>
-      ${shapeName} <span class="ml-5" id="${resultId}">${resultValue}</span> cm<sup>2</sup>
+      ${shapeName} <span class="ml-5" id="${resultId}">${resultValue}</span> <span id='cm'>cm²</span>
       <button
         id="${buttonId}"
         class="bg-primary px-2 py-1 font-bold rounded-sm text-white ml-5"
@@ -130,18 +129,21 @@ const displayResult = (containerId, shapeName, resultValue) => {
     </li>
   `;
 
-  // Attach click event to the conversion button
+  // Convert result cm² to m²
   const convertButton = getId(buttonId);
   const resultElement = getId(resultId);
+  const cm = getId('cm');
   
   convertButton.addEventListener("click", () => {
     const currentResult = parseFloat(resultElement.textContent);
     if (!isNaN(currentResult) && currentResult > 0) {
-      resultElement.textContent = convertCmToM(currentResult); // Convert and update to m²
+      const resultInM2 = (currentResult / 10000).toFixed(3);
+      console.log(resultInM2);
+      resultElement.textContent = resultInM2;
+      cm.textContent = 'm²'
     }
   });
 };
-
 // Example usage
 displayResult('displayResult', 'Triangle', 0);
 
@@ -154,13 +156,5 @@ addEventListener(triangleBtn, "click", () => {
   calculateArea(["baseD", "heightD"], triangleAreaFormula, triangleResult);
 });
 
-//*************************Convert result cm² to m² ********************************/
-// Conversion button for triangle result
-const convertTriangleBtn = getId("convertTriangle");
-addEventListener(convertTriangleBtn, "click", () => {
-  const currentResult = parseFloat(triangleResult.textContent);
-  if (!isNaN(currentResult) && currentResult > 0) {
-    const resultInM2 = convertCmToM(currentResult);
-    result(triangleResult, resultInM2); // Update the result element to show the converted value in m²
-  }
-});
+
+
