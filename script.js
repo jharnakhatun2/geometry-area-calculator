@@ -10,7 +10,9 @@ const addEventListener = (element, event, callbackFn) =>
   element.addEventListener(event, callbackFn);
 
 // set result in element textContent
-const result = (element, value) => (element.textContent = value);
+const result = (element, value) => {
+  element.textContent = value;
+};
 
 // get input field value
 const getInputFieldValue = (id) => {
@@ -25,7 +27,13 @@ const getInputFieldValue = (id) => {
 };
 
 // Generalized area calculation
-const calculateArea = (arrayOfIds, areaFormula, displayElement) => {
+const calculateArea = (
+  arrayOfIds,
+  areaFormula,
+  displayElement,
+  containerId,
+  shapeName
+) => {
   const input = arrayOfIds.map((id) => {
     const value = getId(id).innerHTML.trim();
     return value === "" ? null : parseFloat(value);
@@ -37,10 +45,54 @@ const calculateArea = (arrayOfIds, areaFormula, displayElement) => {
     return;
   }
   const area = areaFormula(...input);
-  result(displayElement, area);
+  console.log(area);
+
+  // Dynamically display the result for the shape
+  displayResult(containerId, shapeName, area);
 
   // reset input field
   arrayOfIds.forEach((id) => (getId(id).value = ""));
+};
+
+// Utility function for Display Results
+const displayResult = (containerId, shapeName, calculationResult) => {
+  const ol = getId(containerId);
+
+  if (!ol) {
+    console.warn(`Element with id "${containerId}" not found.`);
+    return;
+  }
+  // Generate unique IDs for the result and button
+  const resultId = `${shapeName.toLowerCase()}Result`;
+  const buttonId = `convert${shapeName}`;
+
+  ol.innerHTML = `
+    <li>
+      ${shapeName} <span class="ml-2 sm:ml-5" id="${resultId}">0</span> <span id='cm-${shapeName}'>cm²</span>
+      <button
+        id="${buttonId}"
+        class="bg-primary px-1 sm:px-2 sm:py-1 sm:font-bold rounded-sm text-white md:ml-5"
+      >
+        Convert to m<sup>2</sup>
+      </button>
+    </li>
+  `;
+
+  // Convert result cm² to m²
+  const convertButton = getId(buttonId);
+  const resultElement = getId(resultId);
+  resultElement.textContent = calculationResult;
+  const cm = getId(`cm-${shapeName}`);
+
+  convertButton.addEventListener("click", () => {
+    const currentResult = parseFloat(resultElement.textContent);
+    if (!isNaN(currentResult) && currentResult > 0) {
+      const resultInM2 = (currentResult / 10000).toFixed(3);
+      console.log(resultInM2);
+      resultElement.textContent = resultInM2;
+      cm.textContent = "m²";
+    }
+  });
 };
 
 //Utility Function for input values add, edit, update
@@ -111,56 +163,27 @@ const setupShapeEdit = (
     });
   });
 };
-setupShapeEdit("baseD", "heightD", "checkbox", "editIcon", "tBase", "tHight");
 
-//*************************Display Area Calculation ********************************/
-// Display Results Function
-const displayResult = (containerId, shapeName, resultValue) => {
-  const ol = getId(containerId);
+//*************************Use of all utility functions ********************************/
+//=====================Triangle========================//
 
-  if (!ol) {
-    console.warn(`Element with id "${containerId}" not found.`);
-    return;
-  }
-  // Generate unique IDs for the result and button
-  const resultId = `${shapeName.toLowerCase()}Result`;
-  const buttonId = `convert${shapeName}`;
-
-  ol.innerHTML = `
-    <li>
-      ${shapeName} <span class="ml-5" id="${resultId}">${resultValue}</span> <span id='cm'>cm²</span>
-      <button
-        id="${buttonId}"
-        class="bg-primary px-2 py-1 font-bold rounded-sm text-white ml-5"
-      >
-        Convert to m<sup>2</sup>
-      </button>
-    </li>
-  `;
-
-  // Convert result cm² to m²
-  const convertButton = getId(buttonId);
-  const resultElement = getId(resultId);
-  const cm = getId("cm");
-
-  convertButton.addEventListener("click", () => {
-    const currentResult = parseFloat(resultElement.textContent);
-    if (!isNaN(currentResult) && currentResult > 0) {
-      const resultInM2 = (currentResult / 10000).toFixed(3);
-      console.log(resultInM2);
-      resultElement.textContent = resultInM2;
-      cm.textContent = "m²";
-    }
-  });
-};
-// Example usage
-displayResult("displayResult", "Triangle", 0);
-
-//*************************Triangle area calculation ********************************/
-// Triangle area calculation using the utility function
+//Area calculation
 const triangleBtn = getId("triangle");
-const triangleResult = getId("triangleResult");
 const triangleAreaFormula = (base, height) => base * height * 0.5;
 addEventListener(triangleBtn, "click", () => {
-  calculateArea(["baseD", "heightD"], triangleAreaFormula, triangleResult);
+  calculateArea(
+    ["baseD", "heightD"],
+    triangleAreaFormula,
+    getId("triangleResult"),
+    "displayResult",
+    "triangle"
+  );
 });
+//Call input value add, edit, update
+setupShapeEdit("baseD", "heightD", "checkbox", "editIcon", "tBase", "tHight");
+
+//=====================Rectangle========================//
+//=====================Parallelogram========================//
+//=====================Rhombus========================//
+//=====================Pentagon========================//
+//=====================Ellipse========================//
