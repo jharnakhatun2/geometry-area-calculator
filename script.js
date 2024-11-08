@@ -57,6 +57,8 @@ const calculateArea = (
 // Utility function for Display Results
 const displayResult = (containerId, shapeName, calculationResult) => {
   const ol = getId(containerId);
+  const div = createElement('div');
+  div.classList.add('py-2');
 
   if (!ol) {
     console.warn(`Element with id "${containerId}" not found.`);
@@ -66,7 +68,7 @@ const displayResult = (containerId, shapeName, calculationResult) => {
   const resultId = `${shapeName.toLowerCase()}Result`;
   const buttonId = `convert${shapeName}`;
 
-  ol.innerHTML = `
+  div.innerHTML = `
     <li>
       ${shapeName} <span class="ml-2 sm:ml-5" id="${resultId}">0</span> <span id='cm-${shapeName}'>cm²</span>
       <button
@@ -77,7 +79,7 @@ const displayResult = (containerId, shapeName, calculationResult) => {
       </button>
     </li>
   `;
-
+  ol.appendChild(div);
   // Convert result cm² to m²
   const convertButton = getId(buttonId);
   const resultElement = getId(resultId);
@@ -165,8 +167,7 @@ const setupShapeEdit = (
 };
 
 //*************************Use of all utility functions ********************************/
-// calculateArea (arrayOfIds,areaFormula,displayElement,containerId,shapeName)
-// setupShapeEdit(spanBaseId,spanHightId,checkboxId,editIconId,inputBaseId,inputHightId)
+
 //=====================Triangle========================//
 
 //Area calculation
