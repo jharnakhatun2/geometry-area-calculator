@@ -216,5 +216,48 @@ addEventListener(parallelogramBtn, "click", () => {
 //Call input value add, edit, update
 setupShapeEdit("baseP", "heightP", "checkboxP", "editIconP", "pBase", "pHight");
 //=====================Rhombus========================//
+//Area calculation
+const rhombusBtn = getId("rhombus");
+const rhombusAreaFormula = (base, height) => base * height * 0.5;
+addEventListener(rhombusBtn, "click", () => {
+  calculateArea(
+    ["baseRom", "heightRom"],
+    rhombusAreaFormula,
+    getId("rhombusResult"),
+    "displayResult",
+    "rhombus"
+  );
+});
+//Call input value add, edit, update
+setupShapeEdit("baseRom", "heightRom", "checkboxRom", "editIconRom", "romBase", "romHight");
 //=====================Pentagon========================//
+//Area calculation
+const pentagonBtn = getId("pentagon");
+const pentagonAreaFormula = (base, height) => base * height * 0.5;
+addEventListener(pentagonBtn, "click", () => {
+  calculateArea(
+    ["basePb", "heightPb"],
+    pentagonAreaFormula,
+    getId("pentagonResult"),
+    "displayResult",
+    "pentagon"
+  );
+});
+//Call input value add, edit, update
+setupShapeEdit("basePb", "heightPb", "checkboxPb", "editIconPb", "pbBase", "pbHight");
+
 //=====================Ellipse========================//
+//Area calculation
+const ellipseBtn = getId("ellipse");
+const ellipseAreaFormula = (base, height) => (base * height * 3.14).toFixed(2);
+addEventListener(ellipseBtn, "click", () => {
+  calculateArea(
+    ["baseAb", "heightAb"],
+    ellipseAreaFormula,
+    getId("ellipseResult"),
+    "displayResult",
+    "ellipse"
+  );
+});
+//Call input value add, edit, update
+setupShapeEdit("baseAb", "heightAb", "checkboxAb", "editIconAb", "abBase", "abHight");

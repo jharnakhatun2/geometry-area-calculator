@@ -236,19 +236,19 @@
           <!-- rhombus shape -->
           <div class="card bg-base-100 w-full md:w-56 lg:w-72 shadow-xl">
             <figure>
-              <img src="/public/triangle.png" alt="Shoes" />
+              <img src="/public/rhombus.png" alt="rhombus" />
             </figure>
             <div class="card-body text-center">
               <div>
-                <h2 class="text-center text-xl font-bold">Triangle</h2>
-                <p>Area (A) = 0.5 x b x h</p>
+                <h2 class="text-center text-xl font-bold">Rhombus</h2>
+                <p>Area (A) = 0.5 x d1 x d2</p>
               </div>
               <!-- show and edit input value -->
               <div class="flex items-center">
-                <p>b = <span id="baseD">0</span> cm</p>
-                <p>h = <span id="heightD">0</span> cm</p>
+                <p>d1 = <span id="baseRom">0</span> cm</p>
+                <p>d2 = <span id="heightRom">0</span> cm</p>
                 <svg
-                  id="editIcon"
+                  id="editIconRom"
                   class="w-4 h-4 cursor-pointer"
                   viewBox="0 0 24 24"
                   fill="none"
@@ -281,24 +281,24 @@
               <!-- checkbox and input  -->
               <div class="flex items-center justify-center">
                 <input
-                  id="tBase"
+                  id="romBase"
                   type="text"
-                  placeholder="b"
+                  placeholder="d1"
                   class="w-16 px-2 rounded-sm text-xl"
                 /><span class="mr-4 ml-2">cm</span>
                 <input
-                  id="tHight"
+                  id="romHight"
                   type="text"
-                  placeholder="h"
+                  placeholder="d2"
                   class="w-16 px-2 rounded-sm text-xl"
                 /><span class="ml-2">cm</span>
                 <div class="ml-2 bg-zinc-700 px-2 rounded-sm">
-                  <input type="checkbox" id="checkbox" />
+                  <input type="checkbox" id="checkboxRom" />
                 </div>
               </div>
 
               <div class="card-actions justify-center mt-5">
-                <button id="triangle" class="btn btn-primary w-full">
+                <button id="rhombus" class="btn btn-primary w-full">
                   Calculate
                 </button>
               </div>
@@ -307,19 +307,19 @@
           <!-- pentagon shape -->
           <div class="card bg-base-100 w-full md:w-56 lg:w-72 shadow-xl">
             <figure>
-              <img src="/public/triangle.png" alt="Shoes" />
+              <img src="/public/pentagon.png" alt="Pentagon" />
             </figure>
             <div class="card-body text-center">
               <div>
-                <h2 class="text-center text-xl font-bold">Triangle</h2>
-                <p>Area (A) = 0.5 x b x h</p>
+                <h2 class="text-center text-xl font-bold">Pentagon</h2>
+                <p>Area (A) = 0.5 x p x b</p>
               </div>
               <!-- show and edit input value -->
               <div class="flex items-center">
-                <p>b = <span id="baseD">0</span> cm</p>
-                <p>h = <span id="heightD">0</span> cm</p>
+                <p>p = <span id="basePb">0</span> cm</p>
+                <p>b = <span id="heightPb">0</span> cm</p>
                 <svg
-                  id="editIcon"
+                  id="editIconPb"
                   class="w-4 h-4 cursor-pointer"
                   viewBox="0 0 24 24"
                   fill="none"
@@ -352,24 +352,24 @@
               <!-- checkbox and input  -->
               <div class="flex items-center justify-center">
                 <input
-                  id="tBase"
+                  id="pbBase"
                   type="text"
-                  placeholder="b"
+                  placeholder="p"
                   class="w-16 px-2 rounded-sm text-xl"
                 /><span class="mr-4 ml-2">cm</span>
                 <input
-                  id="tHight"
+                  id="pbHight"
                   type="text"
-                  placeholder="h"
+                  placeholder="b"
                   class="w-16 px-2 rounded-sm text-xl"
                 /><span class="ml-2">cm</span>
                 <div class="ml-2 bg-zinc-700 px-2 rounded-sm">
-                  <input type="checkbox" id="checkbox" />
+                  <input type="checkbox" id="checkboxPb" />
                 </div>
               </div>
 
               <div class="card-actions justify-center mt-5">
-                <button id="triangle" class="btn btn-primary w-full">
+                <button id="pentagon" class="btn btn-primary w-full">
                   Calculate
                 </button>
               </div>
@@ -378,19 +378,19 @@
           <!-- ellipse shape -->
           <div class="card bg-base-100 w-full md:w-56 lg:w-72 shadow-xl">
             <figure>
-              <img src="/public/triangle.png" alt="Shoes" />
+              <img src="/public/ellipse.png" alt="Ellipse" />
             </figure>
             <div class="card-body text-center">
               <div>
-                <h2 class="text-center text-xl font-bold">Triangle</h2>
-                <p>Area (A) = 0.5 x b x h</p>
+                <h2 class="text-center text-xl font-bold">Ellipse</h2>
+                <p>Area (A) = 𝜋ab</p>
               </div>
               <!-- show and edit input value -->
               <div class="flex items-center">
-                <p>b = <span id="baseD">0</span> cm</p>
-                <p>h = <span id="heightD">0</span> cm</p>
+                <p>a = <span id="baseAb">0</span> cm</p>
+                <p>b = <span id="heightAb">0</span> cm</p>
                 <svg
-                  id="editIcon"
+                  id="editIconAb"
                   class="w-4 h-4 cursor-pointer"
                   viewBox="0 0 24 24"
                   fill="none"
@@ -423,24 +423,24 @@
               <!-- checkbox and input  -->
               <div class="flex items-center justify-center">
                 <input
-                  id="tBase"
+                  id="abBase"
                   type="text"
                   placeholder="b"
                   class="w-16 px-2 rounded-sm text-xl"
                 /><span class="mr-4 ml-2">cm</span>
                 <input
-                  id="tHight"
+                  id="abHight"
                   type="text"
                   placeholder="h"
                   class="w-16 px-2 rounded-sm text-xl"
                 /><span class="ml-2">cm</span>
                 <div class="ml-2 bg-zinc-700 px-2 rounded-sm">
-                  <input type="checkbox" id="checkbox" />
+                  <input type="checkbox" id="checkboxAb" />
                 </div>
               </div>
 
               <div class="card-actions justify-center mt-5">
-                <button id="triangle" class="btn btn-primary w-full">
+                <button id="ellipse" class="btn btn-primary w-full">
                   Calculate
                 </button>
               </div>
