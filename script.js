@@ -26,77 +26,6 @@ const getInputFieldValue = (id) => {
   return isNaN(inputValueNumber) ? null : inputValueNumber;
 };
 
-// Generalized area calculation
-const calculateArea = (
-  arrayOfIds,
-  areaFormula,
-  displayElement,
-  containerId,
-  shapeName
-) => {
-  const input = arrayOfIds.map((id) => {
-    const value = getId(id).innerHTML.trim();
-    return value === "" ? null : parseFloat(value);
-  });
-
-  // Validation: Check if any value is NaN or empty
-  if (input.some((value) => isNaN(value))) {
-    result(displayElement, null);
-    return;
-  }
-  const area = areaFormula(...input);
-  console.log(area);
-
-  // Dynamically display the result for the shape
-  displayResult(containerId, shapeName, area);
-
-  // reset input field
-  arrayOfIds.forEach((id) => (getId(id).value = ""));
-};
-
-// Utility function for Display Results
-const displayResult = (containerId, shapeName, calculationResult) => {
-  const ol = getId(containerId);
-  const div = createElement('div');
-  div.classList.add('py-2');
-
-  if (!ol) {
-    console.warn(`Element with id "${containerId}" not found.`);
-    return;
-  }
-  // Generate unique IDs for the result and button
-  const resultId = `${shapeName.toLowerCase()}Result`;
-  const buttonId = `convert${shapeName}`;
-
-  div.innerHTML = `
-    <li>
-      ${shapeName} <span class="ml-2 sm:ml-5" id="${resultId}">0</span> <span id='cm-${shapeName}'>cm²</span>
-      <button
-        id="${buttonId}"
-        class="bg-primary px-1 sm:px-2 sm:py-1 sm:font-bold rounded-sm text-white md:ml-5"
-      >
-        Convert to m<sup>2</sup>
-      </button>
-    </li>
-  `;
-  ol.appendChild(div);
-  // Convert result cm² to m²
-  const convertButton = getId(buttonId);
-  const resultElement = getId(resultId);
-  resultElement.textContent = calculationResult;
-  const cm = getId(`cm-${shapeName}`);
-
-  convertButton.addEventListener("click", () => {
-    const currentResult = parseFloat(resultElement.textContent);
-    if (!isNaN(currentResult) && currentResult > 0) {
-      const resultInM2 = (currentResult / 10000).toFixed(3);
-      console.log(resultInM2);
-      resultElement.textContent = resultInM2;
-      cm.textContent = "m²";
-    }
-  });
-};
-
 //Utility Function for input values add, edit, update
 const setupShapeEdit = (
   spanBaseId,
@@ -111,12 +40,13 @@ const setupShapeEdit = (
   const heightD = getId(spanHightId);
   const checkbox = getId(checkboxId);
   const editIcon = getId(editIconId);
-
+  
   // add eventListener in checkbox
   addEventListener(checkbox, "click", () => {
     const tBase = getInputFieldValue(inputBaseId);
     const tHight = getInputFieldValue(inputHightId);
 
+    
     if (typeof tBase === "number" && typeof tHight === "number") {
       baseD.textContent = tBase;
       heightD.textContent = tHight;
@@ -153,18 +83,116 @@ const setupShapeEdit = (
     // update
     addEventListener(inputB, "blur", () => {
       if (inputB.value.trim() === "") {
-        inputB.value === baseD.textContent || 0;
+        inputB.value === baseD.innerHTML || 0;
       }
       baseD.innerHTML = inputB.value;
     });
     addEventListener(inputH, "blur", () => {
       if (inputH.value.trim() === "") {
-        inputH.value === heightD.textContent || 0;
+        inputH.value === heightD.innerHTML || 0;
       }
       heightD.innerHTML = inputH.value;
     });
   });
 };
+
+// Generalized area calculation
+const calculateArea = (
+  arrayOfIds,
+  areaFormula,
+  displayElement,
+  containerId,
+  shapeName
+) => {
+  const input = arrayOfIds.map((id) => {
+    const value = getId(id).textContent;
+    if(value === "0"){
+      return ;
+    }else{
+      return value
+    }
+    
+  });
+
+  
+  // Validation: Check if any value is NaN or empty
+  if (input.some((value) => isNaN(value))) {
+    return;
+  }
+
+ 
+  const area = areaFormula(...input);
+  console.log(area, "result");
+
+  // Dynamically display the result for the shape
+  displayResult(containerId, shapeName, area);
+
+  // reset input field
+  arrayOfIds.forEach((id) => (getId(id).value = ""));
+};
+
+// Utility function for Display Results
+const displayResult = (containerId, shapeName, calculationResult) => {
+  const container = getId(containerId);
+  if (!container) {
+    console.warn(`Element with id "${containerId}" not found.`);
+    return;
+  }
+
+  // Ensure the display area is visible
+  const displayArea = getId('displayArea');
+  displayArea.style.display = 'block';
+
+  // Check if the result for the shape already exists
+  const existingResult = getId(`${shapeName.toLowerCase()}ResultContainer`);
+
+  if (existingResult) {
+    // Update the existing result
+    const resultElement = getId(`${shapeName.toLowerCase()}Result`);
+    const cm = getId(`cm-${shapeName}`);
+    resultElement.textContent = calculationResult;
+    cm.textContent = "cm²";  
+  } else {
+    // Create a new result entry
+    const div = createElement('div');
+    div.id = `${shapeName.toLowerCase()}ResultContainer`; 
+    div.classList.add('py-2');
+    const resultId = `${shapeName.toLowerCase()}Result`;
+    const buttonId = `convert${shapeName}`;
+
+    div.innerHTML = `
+      <li>
+        ${shapeName} <span class="ml-2 sm:ml-5" id="${resultId}">${calculationResult}</span> <span id='cm-${shapeName}'>cm²</span>
+        <button
+          id="${buttonId}"
+          class="bg-primary px-1 sm:px-2 sm:py-1 sm:font-bold rounded-sm text-white md:ml-5"
+        >
+          Convert to m<sup>2</sup>
+        </button>
+      </li>
+    `;
+
+    container.appendChild(div);
+
+    // Convert result from cm² to m²
+    const convertButton = getId(buttonId);
+    const resultElement = getId(resultId);
+    const cm = getId(`cm-${shapeName}`);
+    
+    convertButton.addEventListener("click", () => {
+      const currentResult = parseFloat(resultElement.textContent);
+      if (!isNaN(currentResult) && cm.textContent === "cm²" && currentResult > 0) {
+        const resultInM2 = (currentResult / 10000).toFixed(3);
+        resultElement.textContent = resultInM2;
+        cm.textContent = "m²";
+        // Disable the button after conversion
+        convertButton.disabled = true; 
+      }
+    });
+  }
+};
+
+
 
 //*************************Use of all utility functions ********************************/
 
@@ -199,7 +227,14 @@ addEventListener(rectangleBtn, "click", () => {
   );
 });
 //Call input value add, edit, update
-setupShapeEdit("widthR", "lengthR", "checkboxR", "editIconR", "tWidth", "tLength");
+setupShapeEdit(
+  "widthR",
+  "lengthR",
+  "checkboxR",
+  "editIconR",
+  "tWidth",
+  "tLength"
+);
 
 //=====================Parallelogram========================//
 //Area calculation
@@ -230,7 +265,14 @@ addEventListener(rhombusBtn, "click", () => {
   );
 });
 //Call input value add, edit, update
-setupShapeEdit("baseRom", "heightRom", "checkboxRom", "editIconRom", "romBase", "romHight");
+setupShapeEdit(
+  "baseRom",
+  "heightRom",
+  "checkboxRom",
+  "editIconRom",
+  "romBase",
+  "romHight"
+);
 //=====================Pentagon========================//
 //Area calculation
 const pentagonBtn = getId("pentagon");
@@ -245,7 +287,14 @@ addEventListener(pentagonBtn, "click", () => {
   );
 });
 //Call input value add, edit, update
-setupShapeEdit("basePb", "heightPb", "checkboxPb", "editIconPb", "pbBase", "pbHight");
+setupShapeEdit(
+  "basePb",
+  "heightPb",
+  "checkboxPb",
+  "editIconPb",
+  "pbBase",
+  "pbHight"
+);
 
 //=====================Ellipse========================//
 //Area calculation
@@ -261,4 +310,11 @@ addEventListener(ellipseBtn, "click", () => {
   );
 });
 //Call input value add, edit, update
-setupShapeEdit("baseAb", "heightAb", "checkboxAb", "editIconAb", "abBase", "abHight");
+setupShapeEdit(
+  "baseAb",
+  "heightAb",
+  "checkboxAb",
+  "editIconAb",
+  "abBase",
+  "abHight"
+);
