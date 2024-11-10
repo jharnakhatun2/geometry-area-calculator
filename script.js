@@ -40,13 +40,12 @@ const setupShapeEdit = (
   const heightD = getId(spanHightId);
   const checkbox = getId(checkboxId);
   const editIcon = getId(editIconId);
-  
+
   // add eventListener in checkbox
   addEventListener(checkbox, "click", () => {
     const tBase = getInputFieldValue(inputBaseId);
     const tHight = getInputFieldValue(inputHightId);
 
-    
     if (typeof tBase === "number" && typeof tHight === "number") {
       baseD.textContent = tBase;
       heightD.textContent = tHight;
@@ -102,25 +101,40 @@ const calculateArea = (
   areaFormula,
   displayElement,
   containerId,
-  shapeName
+  shapeName,
+  checkboxId,
+  messageId
 ) => {
+  const checkbox = getId(checkboxId);
+  console.log(checkbox);
+  const showMessage = getId(messageId);
+  console.log(showMessage);
+
+  // Show message if the checkbox is not checked
+  if (!checkbox.checked) {
+    showMessage.style.display = "block";
+    return;
+  } else {
+    showMessage.style.display = "none";
+  }
+  console.log(showMessage);
+
+ 
   const input = arrayOfIds.map((id) => {
     const value = getId(id).textContent;
-    if(value === "0"){
-      return ;
-    }else{
-      return value
+    console.log(value);
+    if (value === "0") {
+      return;
+    } else {
+      return value;
     }
-    
   });
 
-  
   // Validation: Check if any value is NaN or empty
   if (input.some((value) => isNaN(value))) {
     return;
   }
 
- 
   const area = areaFormula(...input);
   console.log(area, "result");
 
@@ -140,8 +154,12 @@ const displayResult = (containerId, shapeName, calculationResult) => {
   }
 
   // Ensure the display area is visible
-  const displayArea = getId('displayArea');
-  displayArea.style.display = 'block';
+  const displayArea = getId("displayArea");
+  if (displayArea) {
+    displayArea.style.display = "block";
+  } else {
+    console.warn("Display area element not found.");
+  }
 
   // Check if the result for the shape already exists
   const existingResult = getId(`${shapeName.toLowerCase()}ResultContainer`);
@@ -151,12 +169,12 @@ const displayResult = (containerId, shapeName, calculationResult) => {
     const resultElement = getId(`${shapeName.toLowerCase()}Result`);
     const cm = getId(`cm-${shapeName}`);
     resultElement.textContent = calculationResult;
-    cm.textContent = "cm²";  
+    cm.textContent = "cm²";
   } else {
     // Create a new result entry
-    const div = createElement('div');
-    div.id = `${shapeName.toLowerCase()}ResultContainer`; 
-    div.classList.add('py-2');
+    const div = createElement("div");
+    div.id = `${shapeName.toLowerCase()}ResultContainer`;
+    div.classList.add("py-2");
     const resultId = `${shapeName.toLowerCase()}Result`;
     const buttonId = `convert${shapeName}`;
 
@@ -178,21 +196,23 @@ const displayResult = (containerId, shapeName, calculationResult) => {
     const convertButton = getId(buttonId);
     const resultElement = getId(resultId);
     const cm = getId(`cm-${shapeName}`);
-    
+
     convertButton.addEventListener("click", () => {
       const currentResult = parseFloat(resultElement.textContent);
-      if (!isNaN(currentResult) && cm.textContent === "cm²" && currentResult > 0) {
+      if (
+        !isNaN(currentResult) &&
+        cm.textContent === "cm²" &&
+        currentResult > 0
+      ) {
         const resultInM2 = (currentResult / 10000).toFixed(3);
         resultElement.textContent = resultInM2;
         cm.textContent = "m²";
         // Disable the button after conversion
-        convertButton.disabled = true; 
+        convertButton.disabled = true;
       }
     });
   }
 };
-
-
 
 //*************************Use of all utility functions ********************************/
 
@@ -207,7 +227,9 @@ addEventListener(triangleBtn, "click", () => {
     triangleAreaFormula,
     getId("triangleResult"),
     "displayResult",
-    "triangle"
+    "triangle",
+    "checkbox",
+    "triangleMessage"
   );
 });
 //Call input value add, edit, update
@@ -223,7 +245,9 @@ addEventListener(rectangleBtn, "click", () => {
     rectangleFormula,
     getId("rectangleResult"),
     "displayResult",
-    "rectangle"
+    "rectangle",
+    "checkboxR",
+    "rectangleMessage"
   );
 });
 //Call input value add, edit, update
@@ -246,7 +270,9 @@ addEventListener(parallelogramBtn, "click", () => {
     parallelogramAreaFormula,
     getId("parallelogramResult"),
     "displayResult",
-    "parallelogram"
+    "parallelogram",
+    "checkboxP",
+    "parallelogramMessage"
   );
 });
 //Call input value add, edit, update
@@ -261,7 +287,9 @@ addEventListener(rhombusBtn, "click", () => {
     rhombusAreaFormula,
     getId("rhombusResult"),
     "displayResult",
-    "rhombus"
+    "rhombus",
+    "checkboxRom",
+    "rhombusMessage"
   );
 });
 //Call input value add, edit, update
@@ -283,7 +311,9 @@ addEventListener(pentagonBtn, "click", () => {
     pentagonAreaFormula,
     getId("pentagonResult"),
     "displayResult",
-    "pentagon"
+    "pentagon",
+    "checkboxPb",
+    "pentagonMessage"
   );
 });
 //Call input value add, edit, update
@@ -306,7 +336,9 @@ addEventListener(ellipseBtn, "click", () => {
     ellipseAreaFormula,
     getId("ellipseResult"),
     "displayResult",
-    "ellipse"
+    "ellipse",
+    "checkboxAb",
+    "ellipseMessage"
   );
 });
 //Call input value add, edit, update
