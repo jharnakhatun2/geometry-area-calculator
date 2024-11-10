@@ -36,15 +36,15 @@ const setupShapeEdit = (
   inputHightId
 ) => {
   // select elements
-  const baseD = getId(spanBaseId);
-  const heightD = getId(spanHightId);
+  let baseD = getId(spanBaseId);
+  let heightD = getId(spanHightId);
   const checkbox = getId(checkboxId);
   const editIcon = getId(editIconId);
 
   // add eventListener in checkbox
   addEventListener(checkbox, "click", () => {
-    const tBase = getInputFieldValue(inputBaseId);
-    const tHight = getInputFieldValue(inputHightId);
+    let tBase = getInputFieldValue(inputBaseId);
+    let tHight = getInputFieldValue(inputHightId);
 
     if (typeof tBase === "number" && typeof tHight === "number") {
       baseD.textContent = tBase;
@@ -60,38 +60,66 @@ const setupShapeEdit = (
   });
 
   // Edit input value
-  addEventListener(editIcon, "click", () => {
-    if (baseD.innerHTML === "0" && heightD.innerHTML === "0") {
+  addEventListener(editIcon, "click", (event) => {
+    // Prevent immediate closing when editIcon is clicked
+    event.stopPropagation();
+
+    let baseDContent = parseFloat(baseD.textContent) || 0;
+    let heightDContent = parseFloat(heightD.textContent) || 0;
+
+    if (baseDContent === 0 && heightDContent === 0) {
       return;
     }
-    // create edit input elements
+
+    // Create edit input elements
     const inputB = createElement("input");
     const inputH = createElement("input");
-    // set inner value
-    inputB.value = baseD.innerHTML;
-    inputH.value = heightD.innerHTML;
+
+    // Set initial values
+    inputB.value = baseDContent;
+    inputH.value = heightDContent;
     inputB.classList.add("w-8", "text-center");
     inputH.classList.add("w-8", "text-center");
 
-    // clear existing element and set new value
+    // Clear existing elements and set new inputs
     baseD.innerHTML = "";
     heightD.innerHTML = "";
     baseD.appendChild(inputB);
     heightD.appendChild(inputH);
 
-    // update
-    addEventListener(inputB, "blur", () => {
+    // Function to exit edit mode
+    function exitEditMode() {
+      // Check if input is empty; set to initial value if empty
+      baseD.textContent =
+        inputB.value.trim() !== "" ? parseFloat(inputB.value) : baseDContent;
+      heightD.textContent =
+        inputH.value.trim() !== "" ? parseFloat(inputH.value) : heightDContent;
+
+      // Remove the document click listener after exiting edit mode
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    // Listener for focusout on each input field
+    addEventListener(inputB, "focusout", () => {
       if (inputB.value.trim() === "") {
-        inputB.value === baseD.innerHTML || 0;
+        inputB.value = baseDContent;
       }
-      baseD.innerHTML = inputB.value;
     });
-    addEventListener(inputH, "blur", () => {
+    addEventListener(inputH, "focusout", () => {
       if (inputH.value.trim() === "") {
-        inputH.value === heightD.innerHTML || 0;
+        inputH.value = heightDContent;
       }
-      heightD.innerHTML = inputH.value;
     });
+
+    // Event listener to detect clicks outside the inputs
+    function handleClickOutside(event) {
+      if (!inputB.contains(event.target) && !inputH.contains(event.target)) {
+        exitEditMode();
+      }
+    }
+
+    // Add the click listener to the document
+    document.addEventListener("click", handleClickOutside);
   });
 };
 
@@ -119,7 +147,6 @@ const calculateArea = (
   }
   console.log(showMessage);
 
- 
   const input = arrayOfIds.map((id) => {
     const value = getId(id).textContent;
     console.log(value);
