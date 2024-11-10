@@ -234,10 +234,9 @@ const displayResult = (containerId, shapeName, calculationResult) => {
         const resultInM2 = (currentResult / 10000).toFixed(3);
         resultElement.textContent = resultInM2;
         cm.textContent = "m²";
-        // Disable the button after conversion
-        convertButton.disabled = true;
       }
     });
+    
   }
 };
 
